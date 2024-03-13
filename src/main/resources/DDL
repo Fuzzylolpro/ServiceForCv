@@ -1,0 +1,80 @@
+create table if not exists public.direction
+(
+    id          bigint default nextval('direction_id_seq'::regclass) not null
+        primary key,
+    description varchar(255),
+    name        varchar(255)
+);
+
+alter table public.direction
+    owner to postgres;
+
+create table if not exists public.candidate
+(
+    id          bigint default nextval('candidate_id_seq'::regclass) not null
+        primary key,
+    cv_file     bytea,
+    description varchar(255),
+    firstname   varchar(255),
+    middle_name varchar(255),
+    photo       bytea  default pg_read_binary_file('/Загрузки'::text),
+    second_name varchar(255)
+);
+
+alter table public.candidate
+    owner to postgres;
+
+create table if not exists public.candidate_direction
+(
+    candidate_id bigint not null
+        constraint fkf67p8hdcbnkyolo1u81qpao0g
+            references public.candidate,
+    direction_id bigint not null
+        constraint fkiop3b0cfvy8kkm5827lep42ru
+            references public.direction
+);
+
+alter table public.candidate_direction
+    owner to postgres;
+
+create table if not exists public.tests
+(
+    id          bigint default nextval('tests_id_seq'::regclass) not null
+        primary key,
+    description varchar(255),
+    name        varchar(255)
+);
+
+alter table public.tests
+    owner to postgres;
+
+create table if not exists public.test_direction
+(
+    test_id      bigint not null
+        constraint fk3a1ksxa4aub5usdlusy7ni28j
+            references public.tests,
+    direction_id bigint not null
+        constraint fkmx51lxbwm5nvglyvny4xtutw4
+            references public.direction
+);
+
+alter table public.test_direction
+    owner to postgres;
+
+create table if not exists public.candidate_tests
+(
+    id           bigint       default nextval('candidate_tests_id_seq'::regclass) not null
+        primary key,
+    result       bigint,
+    candidate_id bigint
+        constraint fklr5o40e60fhpqekllsiefnqgo
+            references public.candidate,
+    tests_id     bigint
+        constraint fk20mcwjc2m87vx0nojop42augk
+            references public.tests,
+    time         timestamp(6) default now()
+);
+
+alter table public.candidate_tests
+    owner to postgres;
+

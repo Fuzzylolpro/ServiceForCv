@@ -22,16 +22,6 @@ public class CandidateService {
         return candidatePage.getContent();
     }
 
-   /* public Boolean createCandidate(Candidate candidate) {
-        try {
-            candidateRepository.save(candidate);
-            log.info(String.format("candidate created " + candidate.getFirstname() + candidate.getSecondName()));
-        } catch (Exception e) {
-            log.warn(String.format("error", candidate.getFirstname()));
-            return false;
-        }
-        return true;
-    }*/
     public Candidate addCandidate(String firstName, String secondName, String middleName, String description, byte[] photo, byte[] cv)  {
 
         Candidate candidate = new Candidate();
