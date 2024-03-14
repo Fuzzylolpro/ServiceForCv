@@ -50,7 +50,7 @@ public class CandidateController {
     }
 
     @PutMapping
-    public ResponseEntity<HttpStatus> update(@RequestBody Candidate candidate,@RequestPart("photo") MultipartFile photo,@RequestPart("cv") MultipartFile cv) {
+    public ResponseEntity<HttpStatus> update(@RequestBody Candidate candidate) {
         return new ResponseEntity<>(candidateService.updateCandidate(candidate) ? HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 }
