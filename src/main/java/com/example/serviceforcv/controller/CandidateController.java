@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -50,7 +51,7 @@ public class CandidateController {
     }
 
     @PutMapping
-    public ResponseEntity<HttpStatus> update(@RequestBody Candidate candidate) {
-        return new ResponseEntity<>(candidateService.updateCandidate(candidate) ? HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    public ResponseEntity<HttpStatus> update(@RequestBody Candidate candidate,@RequestPart("photo") MultipartFile photo,@RequestPart("cv") MultipartFile cv) throws IOException {
+        return new ResponseEntity<>(candidateService.updateCandidate(candidate, photo.getBytes(), cv.getBytes()) ? HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 }

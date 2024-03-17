@@ -34,8 +34,10 @@ public class CandidateService {
         log.info(String.format("candidate created id: " + candidate.getId()));
         return candidateRepository.save(candidate);
     }
-    public Boolean updateCandidate(Candidate candidate) {
+    public Boolean updateCandidate(Candidate candidate,byte[] photo,byte[] cv) {
         try {
+            candidate.setPhoto(photo);
+            candidate.setCvFile(cv);
             candidateRepository.saveAndFlush(candidate);
             log.info(String.format("candidate update id: " + candidate.getId()));
         } catch (Exception e) {
