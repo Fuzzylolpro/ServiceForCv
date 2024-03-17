@@ -1,12 +1,16 @@
-version: '3.7'
+version: '3.8'
 services:
   db:
     container_name: db
+    image: postgres:latest
     ports:
       - "5432:5432"
+    volumes:
+      - ./candidate.sql:/docker-entrypoint-initdb.d/candidate.sql
     environment:
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-    image: postgres:12.16-bullseye
+      - POSTGRES_DB=service-for-cv
     networks:
       - backend
   app:
@@ -15,7 +19,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DB_HOST=db
+      - spring.datasource.username=postgres
+      - spring.datasource.password=root
+      - spring.datasource.url=jdbc:postgresql://db:5432/service-for-cv
     networks:
       - backend
     depends_on:
